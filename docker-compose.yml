@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:13
+    container_name: imf_postgres
+    environment:
+      POSTGRES_USER: imf_user
+      POSTGRES_PASSWORD: imf_password
+      POSTGRES_DB: imf_gadgets
+    ports:
+      - '5432:5432'
+    volumes:
+      - imf_postgres_data:/var/lib/postgresql/data
+volumes:
+  imf_postgres_data:
+      

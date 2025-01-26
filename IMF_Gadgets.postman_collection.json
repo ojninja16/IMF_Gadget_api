@@ -1,0 +1,873 @@
+{
+	"info": {
+		"_postman_id": "e6f63695-7784-4835-9185-d191e45325d7",
+		"name": "IMF_Gadgets",
+		"description": "Here’s how the API works from end to end:\n\n#### **User Authentication**\n\n1. **Register a User**:\n    \n    - A new user registers via `POST /users/register`.\n        \n    - The password is hashed using `bcryptjs` and stored in the database.\n        \n2. **Login**:\n    \n    - The user logs in via `POST /users/login`.\n        \n    - The server verifies the credentials and returns a JWT token.\n        \n3. **Access Protected Routes**:\n    \n    - The user includes the JWT token in the `Authorization` header as `Bearer` .\n        \n    - The `auth` middleware verifies the token and checks the user’s role.\n        \n\n#### **Gadget Management**\n\n1. **Add a Gadget**:\n    \n    - An admin sends a `POST /gadgets` request with the gadget’s name.\n        \n    - The server generates a random codename and adds the gadget to the database.\n        \n2. **Retrieve Gadgets**:\n    \n    - A user sends a `GET /gadgets` request.\n        \n    - The server retrieves all gadgets and adds a randomly generated success probability to each.\n        \n3. **Update a Gadget**:\n    \n    - An admin sends a `PATCH /gadgets/{id}` request with updated fields.\n        \n    - The server updates the gadget in the database.\n        \n4. **Decommission a Gadget**:\n    \n    - An admin sends a `DELETE /gadgets/{id}` request.\n        \n    - The server marks the gadget as \"Decommissioned\" and adds a timestamp.\n        \n5. **Self-Destruct**:\n    \n    - A user sends a `POST /gadgets/{id}/self-destruct` request.\n        \n    - The server marks the gadget as \"Destroyed\" and returns a confirmation code.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24360548"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register_User /users/register",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"register"
+							]
+						},
+						"description": "Gets information about the authenticated user."
+					},
+					"response": [
+						{
+							"name": "Get authenticated user",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"agent1\",\r\n  \"password\": \"secret\",\r\n  \"role\": \"agent\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/users/register",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"register"
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "65"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"41-BseYdyDVbjLGuBKFfLqbAKt4/s8\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 26 Jan 2025 18:02:50 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"2c5f4dec-269b-4a2d-af1e-e34d3ff4359d\",\n    \"username\": \"agent1\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Login_User /users/login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:3000/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"users",
+								"register"
+							]
+						},
+						"description": "Gets information about the authenticated user."
+					},
+					"response": [
+						{
+							"name": "Login_User response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"username\": \"agent1\",\r\n  \"password\": \"secret\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/users/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"users",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "224"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"e0-w8jnX3R8nu+q4Z76BTLt9PyV2fw\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 26 Jan 2025 18:06:52 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIyYzVmNGRlYy0yNjliLTRhMmQtYWYxZS1lMzRkM2ZmNDM1OWQiLCJyb2xlIjoiYWdlbnQiLCJpYXQiOjE3Mzc5MTQ4MTIsImV4cCI6MTczNzkxODQxMn0.8HamigM19GajXKrvVcUViviJfaAAEEf8SEFphRPh-8c\"\n}"
+						}
+					]
+				}
+			],
+			"description": "## **User Authentication API**\n\n### **1\\. Register a New User**\n\n- **Endpoint**: `POST /users/register`\n    \n- **Description**: Creates a new user account. The user will be able to log in using their registered credentials.\n    \n- **Headers**:\n    \n    - `Content-Type: application/json`\n        \n- Body(JSON)\n    \n\n{  \n\"username\": \"agent1\",  \n\"password\": \"secret\",  \n\"role\": \"agent\"  \n}\n\n- Response:\n    \n\n{  \n\"id\": \"uuid\",  \n\"username\": \"agent1\"  \n}\n\n---\n\n### **2\\. Login**\n\n- **Endpoint**: `POST /users/login`\n    \n- **Description**: Logs in the user and returns a JSON Web Token (JWT) for authentication.\n    \n- **Headers**:\n    \n    - `Content-Type: application/json`\n        \n- Body(JSON):\n    \n\n{  \n\"username\": \"agent1\",  \n\"password\": \"secret\"  \n}\n\n- Response:\n    \n\n{  \n\"token\": \"jwt-token\"  \n}\n\n---"
+		},
+		{
+			"name": "Gadgets",
+			"item": [
+				{
+					"name": "Add a Gadget",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"collection\": {\n        \"info\": {\n            \"name\": \"{{collectionName}}\",\n            \"schema\": \"{{collectionSchemaUrl}}\"\n        },\n        \"item\": [\n            {\n                \"request\": {}\n            }\n        ]\n    }\n}"
+						},
+						"url": {
+							"raw": "https://api.getpostman.com/collections",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"collections"
+							],
+							"query": [
+								{
+									"key": "workspace",
+									"value": "{{workspaceId}}",
+									"description": "Optional. A workspace ID in which to create the collection.\n\nIf you do not include this query parameter, the system creates the collection in your \"My Workspace\" workspace.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Creates a collection using the [Postman Collection v2 schema format](https://schema.postman.com/json/collection/v2.1.0/docs/index.html). Include a `collection` object in the request body that contains the following required properties:\n\n*   `info` — An **object** that contains the following properties:\n    *   `name` — A **string** value that contains the collection's name.\n    *   `schema` — A **string** that contains a URL to the collection's schema. For example, the `https://schema.getpostman.com/collection/v1` URL.\n*   `item` — An **object** that contains the HTTP request and response information.\n    *   `request` — An **object** that contains the collection's request information. For a complete list of values, refer to the `definitions.request` entry in the [collection.json schema file](https://schema.postman.com/json/collection/v2.1.0/collection.json). If you pass an empty object for this value, the system defaults to an untitled GET request.\n\n**Note:**\n\n*   For a complete list of available property values for this endpoint, use the following references available in the [collection.json schema file](https://schema.postman.com/json/collection/v2.1.0/collection.json):\n    *   `info` object — Use the `definitions.info` entry.\n    *   `item` object — Use the `definitions.items` entry.\n*   For all other possible values, refer to the [collection.json schema file](https://schema.postman.com/json/collection/v2.1.0/collection.json)."
+					},
+					"response": [
+						{
+							"name": "Add_gadget response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"name\": \"Gadget X\"\n}"
+								},
+								"url": {
+									"raw": "http://localhost:3000/gadgets",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"gadgets"
+									],
+									"query": [
+										{
+											"key": "workspace",
+											"value": "{{workspaceId}}",
+											"description": "Optional. A workspace ID in which to create the collection.\n\nIf you do not include this query parameter, the system creates the collection in your \"My Workspace\" workspace.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "211"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"d3-8G+Dc6GLgSR/BIsbgliOQVsshk8\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 26 Jan 2025 18:30:05 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"b92ae51f-dcea-4f3b-8156-b26b4cd3df79\",\n    \"name\": \"Gadget X\",\n    \"codename\": \"The Phoenix\",\n    \"status\": \"Available\",\n    \"decommissionedAt\": null,\n    \"createdAt\": \"2025-01-26T18:30:05.303Z\",\n    \"updatedAt\": \"2025-01-26T18:30:05.303Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Self Destruct Gadget",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/gadgets/b92ae51f-dcea-4f3b-8156-b26b4cd3df79/self-destruct",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gadgets",
+								"b92ae51f-dcea-4f3b-8156-b26b4cd3df79",
+								"self-destruct"
+							],
+							"query": [
+								{
+									"key": "workspace",
+									"value": "{{workspaceId}}",
+									"description": "Optional. A workspace ID in which to create the collection.\n\nIf you do not include this query parameter, the system creates the collection in your \"My Workspace\" workspace.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Creates a collection using the [Postman Collection v2 schema format](https://schema.postman.com/json/collection/v2.1.0/docs/index.html). Include a `collection` object in the request body that contains the following required properties:\n\n*   `info` — An **object** that contains the following properties:\n    *   `name` — A **string** value that contains the collection's name.\n    *   `schema` — A **string** that contains a URL to the collection's schema. For example, the `https://schema.getpostman.com/collection/v1` URL.\n*   `item` — An **object** that contains the HTTP request and response information.\n    *   `request` — An **object** that contains the collection's request information. For a complete list of values, refer to the `definitions.request` entry in the [collection.json schema file](https://schema.postman.com/json/collection/v2.1.0/collection.json). If you pass an empty object for this value, the system defaults to an untitled GET request.\n\n**Note:**\n\n*   For a complete list of available property values for this endpoint, use the following references available in the [collection.json schema file](https://schema.postman.com/json/collection/v2.1.0/collection.json):\n    *   `info` object — Use the `definitions.info` entry.\n    *   `item` object — Use the `definitions.items` entry.\n*   For all other possible values, refer to the [collection.json schema file](https://schema.postman.com/json/collection/v2.1.0/collection.json)."
+					},
+					"response": [
+						{
+							"name": "Self Destruct Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/gadgets/b92ae51f-dcea-4f3b-8156-b26b4cd3df79/self-destruct",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"gadgets",
+										"b92ae51f-dcea-4f3b-8156-b26b4cd3df79",
+										"self-destruct"
+									],
+									"query": [
+										{
+											"key": "workspace",
+											"value": "{{workspaceId}}",
+											"description": "Optional. A workspace ID in which to create the collection.\n\nIf you do not include this query parameter, the system creates the collection in your \"My Workspace\" workspace.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "29"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1d-Yz2Por6yk5b/0kjSVBvxTA8X5dk\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 26 Jan 2025 18:43:57 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"confirmationCode\": \"8EAIEC\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Gadgets",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjYTk4OGIyZC05ZmE3LTRiNTItYWZlMy0xMGI3MGI3NjAzZjIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzc5MTYxNzYsImV4cCI6MTczNzkxOTc3Nn0.uQ7Y5tgH-ELwdx1RVuHU_FbtytcdkbPocm7eVTfsXTQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:3000/gadgets",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gadgets"
+							],
+							"query": [
+								{
+									"key": "workspace",
+									"value": "{{workspaceId}}",
+									"description": "Optional. A workspace ID in which to create the collection.\n\nIf you do not include this query parameter, the system creates the collection in your \"My Workspace\" workspace.",
+									"disabled": true
+								}
+							]
+						},
+						"description": "Creates a collection using the [Postman Collection v2 schema format](https://schema.postman.com/json/collection/v2.1.0/docs/index.html). Include a `collection` object in the request body that contains the following required properties:\n\n*   `info` — An **object** that contains the following properties:\n    *   `name` — A **string** value that contains the collection's name.\n    *   `schema` — A **string** that contains a URL to the collection's schema. For example, the `https://schema.getpostman.com/collection/v1` URL.\n*   `item` — An **object** that contains the HTTP request and response information.\n    *   `request` — An **object** that contains the collection's request information. For a complete list of values, refer to the `definitions.request` entry in the [collection.json schema file](https://schema.postman.com/json/collection/v2.1.0/collection.json). If you pass an empty object for this value, the system defaults to an untitled GET request.\n\n**Note:**\n\n*   For a complete list of available property values for this endpoint, use the following references available in the [collection.json schema file](https://schema.postman.com/json/collection/v2.1.0/collection.json):\n    *   `info` object — Use the `definitions.info` entry.\n    *   `item` object — Use the `definitions.items` entry.\n*   For all other possible values, refer to the [collection.json schema file](https://schema.postman.com/json/collection/v2.1.0/collection.json)."
+					},
+					"response": [
+						{
+							"name": "Get Gadgets_response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"url": {
+									"raw": "http://localhost:3000/gadgets",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"gadgets"
+									],
+									"query": [
+										{
+											"key": "workspace",
+											"value": "{{workspaceId}}",
+											"description": "Optional. A workspace ID in which to create the collection.\n\nIf you do not include this query parameter, the system creates the collection in your \"My Workspace\" workspace.",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "240"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"f0-KjqA6+XIEvWER5AWK+nr6QxTYvc\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 26 Jan 2025 18:34:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": \"b92ae51f-dcea-4f3b-8156-b26b4cd3df79\",\n        \"name\": \"Gadget X\",\n        \"codename\": \"The Phoenix\",\n        \"status\": \"Available\",\n        \"decommissionedAt\": null,\n        \"createdAt\": \"2025-01-26T18:30:05.303Z\",\n        \"updatedAt\": \"2025-01-26T18:30:05.303Z\",\n        \"successProbability\": \"92%\"\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Update Gadget",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJjYTk4OGIyZC05ZmE3LTRiNTItYWZlMy0xMGI3MGI3NjAzZjIiLCJyb2xlIjoiYWRtaW4iLCJpYXQiOjE3Mzc5MTYxNzYsImV4cCI6MTczNzkxOTc3Nn0.uQ7Y5tgH-ELwdx1RVuHU_FbtytcdkbPocm7eVTfsXTQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"name\": \"Updated Gadget X\",\r\n  \"status\": \"Deployed\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:3000/gadgets/b92ae51f-dcea-4f3b-8156-b26b4cd3df79",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "3000",
+							"path": [
+								"gadgets",
+								"b92ae51f-dcea-4f3b-8156-b26b4cd3df79"
+							]
+						},
+						"description": "Gets information about a collection. For a complete list of this endpoint's possible values, use the [collection.json schema file](https://schema.postman.com/json/collection/v2.1.0/collection.json)."
+					},
+					"response": [
+						{
+							"name": "Updatet_Gadget reponse",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"name\": \"Updated Gadget X\",\r\n  \"status\": \"Deployed\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:3000/gadgets/b92ae51f-dcea-4f3b-8156-b26b4cd3df79",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"gadgets",
+										"b92ae51f-dcea-4f3b-8156-b26b4cd3df79"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "218"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"da-5nK+rIg9OKn1BHInWJmfftY4CGY\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 26 Jan 2025 18:37:46 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"b92ae51f-dcea-4f3b-8156-b26b4cd3df79\",\n    \"name\": \"Updated Gadget X\",\n    \"codename\": \"The Phoenix\",\n    \"status\": \"Deployed\",\n    \"decommissionedAt\": null,\n    \"createdAt\": \"2025-01-26T18:30:05.303Z\",\n    \"updatedAt\": \"2025-01-26T18:37:46.418Z\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete gadget",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "https://api.getpostman.com/collections/{{collectionId}}",
+							"protocol": "https",
+							"host": [
+								"api",
+								"getpostman",
+								"com"
+							],
+							"path": [
+								"collections",
+								"{{collectionId}}"
+							]
+						},
+						"description": "Deletes a collection."
+					},
+					"response": [
+						{
+							"name": "Delete a collection",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/gadgets/b92ae51f-dcea-4f3b-8156-b26b4cd3df79",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"gadgets",
+										"b92ae51f-dcea-4f3b-8156-b26b4cd3df79"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "246"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"f6-HIfgWdYnUaPK28fA1MO8X3wWZP4\""
+								},
+								{
+									"key": "Date",
+									"value": "Sun, 26 Jan 2025 18:45:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"id\": \"b92ae51f-dcea-4f3b-8156-b26b4cd3df79\",\n    \"name\": \"Updated Gadget X\",\n    \"codename\": \"The Phoenix\",\n    \"status\": \"Decommissioned\",\n    \"decommissionedAt\": \"2025-01-26T18:45:02.829Z\",\n    \"createdAt\": \"2025-01-26T18:30:05.303Z\",\n    \"updatedAt\": \"2025-01-26T18:45:02.834Z\"\n}"
+						}
+					]
+				}
+			],
+			"description": "### **1\\. Add a Gadget** (Admin Only)\n\n- **Endpoint**: `POST /gadgets`\n    \n- **Description**: Adds a new gadget to the database with a random codename.\n    \n- **Headers**:\n    \n    - `Content-Type: application/json`\n        \n    - `Authorization: Bearer`\n        \n- BODY:\n    \n\n{  \n\"name\": \"Gadget X\"  \n}\n\n- Response:\n    \n\n{  \n\"id\": \"uuid\",  \n\"name\": \"Gadget X\",  \n\"codename\": \"The Nightingale\",  \n\"status\": \"Available\"  \n}\n\n### **2.Retrieve Gadgets** (Users & Admins)\n\n- **Endpoint**: `GET /gadgets`\n    \n- **Description**: Retrieves all gadgets from the database with a randomly generated success probability.\n    \n- **Headers**:\n    \n    - `Authorization: Bearer`\n        \n\n  \n\n- Response:\n    \n\n\\[  \n{  \n\"id\": \"uuid\",  \n\"name\": \"Gadget X\",  \n\"codename\": \"The Nightingale\",  \n\"status\": \"Available\",  \n\"successProbability\": \"87%\"  \n},......  \n\\]\n\n### **3\\. Update a Gadget** (Admin Only)\n\n- **Endpoint**: `PATCH /gadgets/{id}`\n    \n- **Description**: Updates a gadget's details\n    \n- **Headers**:\n    \n    - `Content-Type: application/json`\n        \n    - `Authorization: Bearer`\n        \n- **Request Body** (JSON):\n    \n\n{  \n\"name\": \"Updated Gadget X\",  \n\"status\": \"Deployed\"  \n}\n\n- Response:\n    \n\n{  \n\"id\": \"uuid\",  \n\"name\": \"Updated Gadget X\",  \n\"codename\": \"The Nightingale\",  \n\"status\": \"Deployed\"  \n}\n\n### **4\\. Delete Gadget** (Admin only):\n\n- **Endpoint**: **`DELETE/gadgets/{id}`**\n    \n- **Description**: Decommissions a gadget (marks it as \"Decommissioned\" and adds a timestamp).\n    \n- Response:\n    \n\n{  \n\"id\": \"uuid\",  \n\"name\": \"Gadget X\",  \n\"codename\": \"The Nightingale\",  \n\"status\": \"Decommissioned\",  \n\"decommissionedAt\": \"2023-10-01T12:00:00Z\"  \n}\n\n### **4\\. Self Descrtuct** (Admin or Agent):\n\n- **Endpoint**: **`POST /gadgets/{id}/self-destruct`**\n    \n- Description: Trigger a self destruct for specific target\\\\\n    \n- Response:\n    \n\n{  \n\"confirmationCode\": \"ABC123\"  \n}",
+			"auth": {
+				"type": "bearer"
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "X-API-Key",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://farming-simulator.pstmn.io"
+		}
+	]
+}
